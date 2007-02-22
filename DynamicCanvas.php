@@ -293,8 +293,6 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             }
             // scriptTag is now the last added script, so it should be ours.
 
-//            document.documentElement.addEventListener( 'load', init, true );
-
             // Data section *start*
             var polygones = {$polygoneArray}
             // Data section *end*
@@ -310,9 +308,6 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             {
                 // Generate sinus and cosinus lookup tables
                 this._generateSinCosTables();
-
-                // Instantiate new "standard" driver
-//                this.setDriver ( new CanvasDriver( document.getElementById( 'drawingCanvas' ) ) );
             }
 
             // Class constants
@@ -715,8 +710,8 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             // Class constants
             MouseEventGenerator.CONTROL_TRANSLATE_XY = 1;
             MouseEventGenerator.CONTROL_TRANSLATE_Z = 2;
-            MouseEventGenerator.CONTROL_ROTATE_XY = 4;
-            MouseEventGenerator.CONTROL_ROTATE_Z = 8;
+            MouseEventGenerator.CONTROL_ROTATE_XY = 3;
+            MouseEventGenerator.CONTROL_ROTATE_Z = 4;
 
             MouseEventGenerator.prototype =  {
                 /**
@@ -903,6 +898,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                 setControlState: function( event, state ) 
                 {
                     var buttons = new Array();
+                    console.log( state );
 /*                    buttons[1] = document.getElementById( "CONTROL_TRANSLATE_XY_BUTTON" );
                     buttons[2] = document.getElementById( "CONTROL_TRANSLATE_Z_BUTTON" );
                     buttons[4] = document.getElementById( "CONTROL_ROTATE_XY_BUTTON" );
@@ -915,6 +911,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
 
                     buttons[state].style.color = "#f57900";
 */
+
 
                     this._currentControlState = state;
                 }
@@ -970,46 +967,119 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             }
 
 
-            function Image3D() 
-            {
-                this.container = document.createElement( 'div' );
-                this.canvas = document.createElement( 'canvas' );
-                this.controlOverlay = document.createElement( 'div' );
-                this.container.style.position = "relative";
-                this.container.style.width = {$this->_x} + "px";
-                this.container.style.height = {$this->_y} + "px";
-                this.canvas.style.position = "absolute";
-                this.canvas.style.top = "0px";
-                this.canvas.style.left = "0px";
-                this.canvas.style.width = {$this->_x} + "px";
-                this.canvas.style.height = {$this->_y} + "px";
-                this.canvas.width = {$this->_x};
-                this.canvas.height = {$this->_y};
-                this.controlOverlay.style.position = "absolute";
-                this.controlOverlay.style.top = "0px";
-                this.controlOverlay.style.left = "0px";
-                this.controlOverlay.style.width = {$this->_x} + "px";
-                this.controlOverlay.style.height = {$this->_y} + "px";
-                this.container.appendChild( this.canvas );
-                this.container.appendChild( this.controlOverlay );
-                scriptTag.parentNode.insertBefore( this.container, scriptTag.nextSibling );
+            Image3D = {
+                container: false,
+                canvas: false,
+                controlOverlay: false,
+                buttonList: false,
+                buttons: new Array(),
+                bodyElement: false,
+                mouseEventGenerator: false,                
+
+                init: function() 
+                {
+                    Image3D.container = document.createElement( 'div' );
+                    Image3D.canvas = document.createElement( 'canvas' );
+                    Image3D.controlOverlay = document.createElement( 'div' );
+                    Image3D.container.style.position = "relative";
+                    Image3D.container.style.width = {$this->_x} + "px";
+                    Image3D.container.style.height = {$this->_y} + "px";
+                    Image3D.canvas.style.position = "absolute";
+                    Image3D.canvas.style.top = "0px";
+                    Image3D.canvas.style.left = "0px";
+                    Image3D.canvas.style.width = {$this->_x} + "px";
+                    Image3D.canvas.style.height = {$this->_y} + "px";
+                    Image3D.canvas.width = {$this->_x};
+                    Image3D.canvas.height = {$this->_y};
+                    Image3D.controlOverlay.style.position = "absolute";
+                    Image3D.controlOverlay.style.top = "0px";
+                    Image3D.controlOverlay.style.left = "0px";
+                    Image3D.controlOverlay.style.width = {$this->_x} + "px";
+                    Image3D.controlOverlay.style.height = {$this->_y} + "px";
+                    Image3D.buttons = new Array();
+                    Image3D.buttonList = document.createElement( 'ul' );
+
+                    // Create a new MouseEventGenerator
+                    var bodyElement = document.getElementsByTagName( "body" );
+                    Image3D.bodyElement = bodyElement[0];
+                    Image3D.mouseEventGenerator = new MouseEventGenerator( Image3D.controlOverlay, Image3D.bodyElement, Image3D.bodyElement );
+                    
+                    // Create the needed toolbar buttons
+                    var image = false;
+
+                    Image3D.buttons[0] = document.createElement( 'li' );
+                    image = document.createTextNode( 'T XY' );
+                    Image3D.buttons[0].addEventListener( 'click', function( event ) 
+                    {
+                        Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_TRANSLATE_XY );
+                    }, false);
+                    Image3D.buttons[0].appendChild( image );
+
+                    Image3D.buttons[1] = document.createElement( 'li' );
+                    image = document.createTextNode( 'T Z' );
+                    Image3D.buttons[1].addEventListener( 'click', function( event ) 
+                    {
+                        Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_TRANSLATE_Z );
+                    }, false);
+                    Image3D.buttons[1].appendChild( image );
+
+                    Image3D.buttons[2] = document.createElement( 'li' );
+                    image = document.createTextNode( 'R XY' );
+                    Image3D.buttons[2].addEventListener( 'click', function( event ) 
+                    {
+                        Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_ROTATE_XY );
+                    }, false);
+                    Image3D.buttons[2].appendChild( image );
+
+                    Image3D.buttons[3] = document.createElement( 'li' );
+                    image = document.createTextNode( 'R Z' );
+                    Image3D.buttons[3].addEventListener( 'click', function( event ) 
+                    {
+                        Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_ROTATE_Z );
+                    }, false);
+                    Image3D.buttons[3].appendChild( image );
+
+                    Image3D.buttons[4] = document.createElement( 'li' );
+                    image = document.createTextNode( 'PNG' );
+                    Image3D.buttons[4].addEventListener( 'click', function( event ) 
+                    {
+                        Image3D.renderer.setDriver( new PngDriver() );
+                        Image3D.renderer.render();
+                        return false;
+                    }, false);
+                    Image3D.buttons[4].appendChild( image );
+
+                    Image3D.buttons[5] = document.createElement( 'li' );
+                    image = document.createTextNode( 'SVG' );
+                    Image3D.buttons[5].addEventListener( 'click', function( event ) 
+                    {
+                        Image3D.renderer.setDriver( new SvgDriver() );
+                        Image3D.renderer.render();
+                        return false;
+                    }, false);
+                    Image3D.buttons[5].appendChild( image );
+
+                    // Add all buttons to the unordered list
+                    for( var key in Image3D.buttons ) 
+                    {
+                        Image3D.buttonList.appendChild( Image3D.buttons[key] );
+                    }
+                    
+                    // Put everything together and add it to the document
+                    Image3D.container.appendChild( Image3D.canvas );
+                    Image3D.controlOverlay.appendChild( Image3D.buttonList );
+                    Image3D.container.appendChild( Image3D.controlOverlay );
+                    scriptTag.parentNode.insertBefore( Image3D.container, scriptTag.nextSibling );
+
+                    // Init a new renderer
+                    Image3D.renderer = new Renderer();
+                    Image3D.renderer.setDriver( new CanvasDriver( Image3D.canvas ) );
+                    Image3D.renderer.setEventGenerator( Image3D.mouseEventGenerator );
+
+                    // Render the scene for the first time
+                    Image3D.renderer.render();
+                }
             }
-
-            // Main program routine
-            function init() 
-            {
-                var i3d = new Image3D();
-                var mouseEventGenerator = new MouseEventGenerator();
-
-                var renderer = new Renderer();
-                renderer.setDriver( new CanvasDriver( i3d.canvas ) );
-
-                var bodyel = document.getElementsByTagName( "body" );
-                bodyel = bodyel[0];
-                renderer.setEventGenerator( new MouseEventGenerator( i3d.controlOverlay, bodyel, bodyel ) );
-                renderer.render();
-            }
-
 
             function SvgDriver() {
             }
@@ -1114,7 +1184,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             }
 
             // Register our new onload function
-            document.addEventListener(  "DOMContentLoaded", init, false );
+            document.addEventListener(  "DOMContentLoaded", Image3D.init, false );
 EOF;
     }
 
@@ -1136,7 +1206,7 @@ EOF;
      */
     public function getSupportedShading() 
     {
-        return array( Image_3D_Renderer::SHADE_NO, Image_3D_Renderer::SHADE_FLAT, Image_3D_Renderer::SHADE_GAUROUD );
+        return array( Image_3D_Renderer::SHADE_NO, Image_3D_Renderer::SHADE_FLAT);//, Image_3D_Renderer::SHADE_GAUROUD );
     }
 }
 
