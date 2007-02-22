@@ -32,7 +32,6 @@
  * @package    Image_3D
  * @author     Jakob Westhoff <jakob@westhoffswelt.de>
  */
-
 class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
 
     /**
@@ -278,8 +277,22 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
         $polygoneArray = $this->_arrayToJs( $this->_polygones ) . ";\n";
 
         return <<<EOF
-        <script language="javascript">
-        /* <![CDATA[ */
+            // We need to know where the script tag of this file is in the dom
+            var allScriptTags = document.documentElement.getElementsByTagName( 'script' );
+            var scriptTag = false;
+            if ( allScriptTags.length > 1 )
+            {
+                for ( var key in allScriptTags )
+                {
+                    scriptTag = allScriptTags[key];
+                }
+            }
+            else 
+            {
+                scriptTag = allScriptTags[0];
+            }
+            // scriptTag is now the last added script, so it should be ours.
+
 
             // Data section *start*
             var polygones = {$polygoneArray}
@@ -298,7 +311,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                 this._generateSinCosTables();
 
                 // Instantiate new "standard" driver
-                this.setDriver ( new CanvasDriver( document.getElementById( 'drawingCanvas' ) ) );
+//                this.setDriver ( new CanvasDriver( document.getElementById( 'drawingCanvas' ) ) );
             }
 
             // Class constants
@@ -889,7 +902,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                 setControlState: function( event, state ) 
                 {
                     var buttons = new Array();
-                    buttons[1] = document.getElementById( "CONTROL_TRANSLATE_XY_BUTTON" );
+/*                    buttons[1] = document.getElementById( "CONTROL_TRANSLATE_XY_BUTTON" );
                     buttons[2] = document.getElementById( "CONTROL_TRANSLATE_Z_BUTTON" );
                     buttons[4] = document.getElementById( "CONTROL_ROTATE_XY_BUTTON" );
                     buttons[8] = document.getElementById( "CONTROL_ROTATE_Z_BUTTON" );
@@ -900,7 +913,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                     buttons[MouseEventGenerator.CONTROL_ROTATE_Z].style.color = "#204a87";
 
                     buttons[state].style.color = "#f57900";
-
+*/
 
                     this._currentControlState = state;
                 }
@@ -952,157 +965,152 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                 _timeout: function( self ) {
                     self._notifyRenderer( Renderer.EVENT_ROTATE, [ 2, 4, 2 ] );
                     window.setTimeout( function(){ self._timeout( self ); }, 10 );                    
-//                    self._timeout( self );
                 }
             }
 
 
-            function Image3D( o ) 
+            function Image3D() 
             {
+                this.container = document.createElement( 'div' );
                 this.canvas = document.createElement( 'canvas' );
                 this.controlOverlay = document.createElement( 'div' );
-                o.style.display = "block";
-                o.style.position = "relative";
-                o.style.width = {$this->_x} + "px";
-                o.style.height = {$this->_y} + "px";
-                this.canvas.style.position = "absolute";
+                this.container.style.display = "absolute";
+                this.container.style.width = {$this->_x} + "px";
+                this.container.style.height = {$this->_y} + "px";
+                this.canvas.style.position = "relative";
                 this.canvas.style.top = "0px";
                 this.canvas.style.left = "0px";
                 this.canvas.style.width = {$this->_x} + "px";
                 this.canvas.style.height = {$this->_y} + "px";
-                this.controlOverlay.style.position = "absolute";
+                this.canvas.width = {$this->_x};
+                this.canvas.height = {$this->_y};
+                this.controlOverlay.style.position = "relative";
                 this.controlOverlay.style.top = "0px";
                 this.controlOverlay.style.left = "0px";
                 this.controlOverlay.style.width = {$this->_x} + "px";
                 this.controlOverlay.style.height = {$this->_y} + "px";
-                o.appendChild( this.canvas );
-                o.appendChild( this.controlOverlay );
+                this.container.appendChild( this.canvas );
+                this.container.appendChild( this.controlOverlay );
+                scriptTag.parentNode.insertBefore( this.container, scriptTag.nextSibling );
             }
 
-            // Global variables
-            var mouseEventGenerator;
-            
             // Main program routine
             function init() 
             {
-                mouseEventGenerator = new MouseEventGenerator();
+                var i3d = new Image3D();
+                var mouseEventGenerator = new MouseEventGenerator();
 
                 var renderer = new Renderer();
-                renderer.setDriver( new CanvasDriver( document.getElementById( "drawingCanvas" ) ) );
-//                renderer.setDriver( new SvgDriver() );
+                renderer.setDriver( new CanvasDriver( i3d.canvas ) );
+
                 var bodyel = document.getElementsByTagName( "body" );
                 bodyel = bodyel[0];
-                renderer.setEventGenerator( new MouseEventGenerator( document.getElementById( "drawingCanvas" ), bodyel, bodyel ) );
-//                renderer.setEventGenerator( new RotateAnimationEventGenerator() );
+                renderer.setEventGenerator( new MouseEventGenerator( i3d.controlOverlay, bodyel, bodyel ) );
                 renderer.render();
             }
 
 
-        function SvgDriver() {
-        }
+            function SvgDriver() {
+            }
 
-        SvgDriver.prototype = {
-            _svg: "",
-            _index: 0,
-            _polygones: Array(),
-            _gradients: Array(),
+            SvgDriver.prototype = {
+                _svg: "",
+                _index: 0,
+                _polygones: Array(),
+                _gradients: Array(),
 
-            _decimal2hex: function( decimal ) {
-                var charset = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
-                var hex = Array();
+                _decimal2hex: function( decimal ) {
+                    var charset = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+                    var hex = Array();
 
-                for( var d = decimal; d != 0; d = parseInt( d / 16 ) )
+                    for( var d = decimal; d != 0; d = parseInt( d / 16 ) )
+                    {
+                        hex.unshift( charset[ d%16 ] ) 
+                        
+                    }
+                    if ( hex.length == 0 ) 
+                    {
+                        hex.unshift( "0" );
+                    }
+
+                    return hex.join( "" );
+                },
+
+                _getStyle: function( color ) {
+                    var rx = ( this._decimal2hex( color["r"] ).length < 2 ) ? "0" + this._decimal2hex( color["r"] ) : this._decimal2hex( color["r"] );
+                    var gx = ( this._decimal2hex( color["g"] ).length < 2 ) ? "0" + this._decimal2hex( color["g"] ) : this._decimal2hex( color["g"] );
+                    var bx = ( this._decimal2hex( color["b"] ).length < 2 ) ? "0" + this._decimal2hex( color["b"] ) : this._decimal2hex( color["b"] );
+
+                    return "fill: #" + rx + gx + bx + "; fill-opacity: " + color["a"] + "; stroke: none;";
+                },
+
+                _getGradientStop: function( color, offset, alpha ) {
+                },
+
+                begin: function( x, y ) {
+                    this._svg += '<?xml version="1.0" ?>\\n';
+                    this._svg += '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\\n';             
+                    this._svg += '"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\\n\\n';
+                    this._svg += '<svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="' + x + '" height="' + y + '">\\n';
+                },
+
+                drawPolygon: function( polygon ) {
+                    var pointlist = ""
+                    for( var i=0; i<polygon["points"].length; i++ ) 
+                    {
+                        pointlist += ( Math.round( polygon["points"][i][0] * 100 ) / 100 ) + "," + ( Math.round( polygon["points"][i][1] * 100 ) / 100 ) + " "; 
+                    }
+                    this._polygones.push( "<polygon points=\"" + pointlist.substr( 0, pointlist.length -1 ) + "\" style=\"" + this._getStyle( polygon["colors"][0] )  +"\" />\\n" );
+                },
+
+                finish: function() {
+                    this._svg += "<defs></defs>\\n";
+                    this._svg += this._polygones.join( "" );
+                    this._svg += "</svg>";
+                    window.location = "data:image/svg+xml;base64," + Base64.encode( this._svg );
+                }
+            }
+
+            Base64 = {
+                charset: [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "/" ],
+
+                encode: function( data ) 
                 {
-                    hex.unshift( charset[ d%16 ] ) 
+                    // Tranform data string to an array for easier handling
+                    var input = Array();                
+                    for ( var i = 0; i<data.length; i++ ) 
+                    {
+                        input[i] = data.charCodeAt( i );
+                    }
+
+                    var encoded = Array();
                     
+                    // Create padding to let us operate on 24 bit ( 3 byte ) chunks till the end
+                    var padding = 0;
+                    while ( input.length % 3 != 0 ) 
+                    {
+                        input.push( 0 );
+                        padding++;
+                    }
+
+                    for( var i=0; i<input.length; i+=3 ) 
+                    {
+                        encoded.push( Base64.charset[ input[i] >> 2 ] );
+                        encoded.push( Base64.charset[ ( ( input[i] & 3) << 4 ) | ( input[i+1] >> 4 ) ] );
+                        encoded.push( Base64.charset[ ( ( input[i+1] & 15) << 2 ) | ( input[i+2] >> 6 ) ] );
+                        encoded.push( Base64.charset[ ( input[i+2] & 63 ) ] );
+                    }
+
+
+                    // Replace our added zeros with the correct padding characters
+                    for( var i=0; i<padding; i++ ) 
+                    {
+                        encoded[encoded.length-1-i]= "=";                    
+                    }
+
+                    return encoded.join( "" );
                 }
-                if ( hex.length == 0 ) 
-                {
-                    hex.unshift( "0" );
-                }
-
-                return hex.join( "" );
-            },
-
-            _getStyle: function( color ) {
-                var rx = ( this._decimal2hex( color["r"] ).length < 2 ) ? "0" + this._decimal2hex( color["r"] ) : this._decimal2hex( color["r"] );
-                var gx = ( this._decimal2hex( color["g"] ).length < 2 ) ? "0" + this._decimal2hex( color["g"] ) : this._decimal2hex( color["g"] );
-                var bx = ( this._decimal2hex( color["b"] ).length < 2 ) ? "0" + this._decimal2hex( color["b"] ) : this._decimal2hex( color["b"] );
-
-                return "fill: #" + rx + gx + bx + "; fill-opacity: " + color["a"] + "; stroke: none;";
-            },
-
-            _getGradientStop: function( color, offset, alpha ) {
-            },
-
-            begin: function( x, y ) {
-                this._svg += '<?xml version="1.0" ?>\\n';
-                this._svg += '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\\n';             
-                this._svg += '"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\\n\\n';
-                this._svg += '<svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="' + x + '" height="' + y + '">\\n';
-            },
-
-            drawPolygon: function( polygon ) {
-                var pointlist = ""
-                for( var i=0; i<polygon["points"].length; i++ ) 
-                {
-                    pointlist += ( Math.round( polygon["points"][i][0] * 100 ) / 100 ) + "," + ( Math.round( polygon["points"][i][1] * 100 ) / 100 ) + " "; 
-                }
-                this._polygones.push( "<polygon points=\"" + pointlist.substr( 0, pointlist.length -1 ) + "\" style=\"" + this._getStyle( polygon["colors"][0] )  +"\" />\\n" );
-            },
-
-            finish: function() {
-                this._svg += "<defs></defs>\\n";
-                this._svg += this._polygones.join( "" );
-                this._svg += "</svg>";
-                window.location = "data:image/svg+xml;base64," + Base64.encode( this._svg );
             }
-        }
-
-        Base64 = {
-            charset: [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "/" ],
-
-            encode: function( data ) 
-            {
-                // Tranform data string to an array for easier handling
-                var input = Array();                
-                for ( var i = 0; i<data.length; i++ ) 
-                {
-                    input[i] = data.charCodeAt( i );
-                }
-
-                var encoded = Array();
-                
-                // Create padding to let us operate on 24 bit ( 3 byte ) chunks till the end
-                var padding = 0;
-                while ( input.length % 3 != 0 ) 
-                {
-                    input.push( 0 );
-                    padding++;
-                }
-
-                for( var i=0; i<input.length; i+=3 ) 
-                {
-                    encoded.push( Base64.charset[ input[i] >> 2 ] );
-                    encoded.push( Base64.charset[ ( ( input[i] & 3) << 4 ) | ( input[i+1] >> 4 ) ] );
-                    encoded.push( Base64.charset[ ( ( input[i+1] & 15) << 2 ) | ( input[i+2] >> 6 ) ] );
-                    encoded.push( Base64.charset[ ( input[i+2] & 63 ) ] );
-                }
-
-
-                // Replace our added zeros with the correct padding characters
-                for( var i=0; i<padding; i++ ) 
-                {
-                    encoded[encoded.length-1-i]= "=";                    
-                }
-
-                return encoded.join( "" );
-            }
-        }
-
-
-        /* ]]> */
-        </script>
 EOF;
     }
 
@@ -1114,64 +1122,7 @@ EOF;
      */
     public function save( $file ) 
     {
-        $this->_name = array_shift( explode( ".", array_shift( explode( "/", $file ) ) ) );
-        $size_with_border_x = $this->_x + 40;
-        $size_with_border_y = $this->_y + 40;
-
-        $this->_image = <<<EOF
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-    <head>
-        <title>Image3D Canvas Render of {$this->_name}</title>
-
-EOF;
-
-        $this->_image .= $this->_getJs();
-
-        $this->_image .= <<<EOF
-    </head>
-    <body onload="init();" style="margin:10px; padding:0px; text-align:center;">
-		<div style="margin: 0px auto">
-			<h1 style="font-family: Arial, sans-serif; color:#204a87;">Image3D Live Canvas Render Of "{$this->_name}"</h1>
-			<div style="border: 3px #729fcf solid; width:{$size_with_border_x}px; margin: auto; margin-bottom: 5px;">
-				<div style="margin: 5px;"> 
-					<ul>
-                        <li id="CONTROL_TRANSLATE_XY_BUTTON" style="cursor: pointer; display: inline; font-family: Arial, sans-serif; color: #204a87; text-decoration: none; font-weight: bold;" onclick="mouseEventGenerator.setControlState( event, 1 );">
-                            Translate X/Y
-                        </li>
-                         | 
-                        <li id="CONTROL_TRANSLATE_Z_BUTTON" style="cursor: pointer; display: inline; font-family: Arial, sans-serif; color: #204a87; text-decoration: none; font-weight: bold;" onclick="mouseEventGenerator.setControlState( event, 2 );">
-                            Translate Z
-                        </li>
-                         | 
-                        <li id="CONTROL_ROTATE_XY_BUTTON" style="cursor: pointer; display: inline; font-family: Arial, sans-serif; color: #204a87; text-decoration: none; font-weight: bold;" onclick="mouseEventGenerator.setControlState( event, 4 );">
-                            Rotate X/Y
-                        </li>
-                         | 
-                        <li id="CONTROL_ROTATE_Z_BUTTON" style="cursor: pointer; display: inline; font-family: Arial, sans-serif; color: #204a87; text-decoration: none; font-weight: bold;" onclick="mouseEventGenerator.setControlState( event, 8 );">
-                            Rotate Z
-                        </li>
-                    </ul>
-				</div>
-			</div>
-			<div style="border: 3px #fcaf3e solid; width:{$size_with_border_x}px; height:{$size_with_border_y}px; margin: auto;"> 
-				<canvas id="drawingCanvas" width="{$this->_x}" height="{$this->_y}" style="margin:20px; cursor: move;" />
-			</div>
-
-			<div style="border: 3px #729fcf solid; width:{$size_with_border_x}px; margin: auto; margin-top: 5px;">
-				<div style="margin: 5px; cursor:pointer;" onclick="var renderer = new Renderer(); renderer.setDriver( new PngDriver() ); renderer.render(); return false;"> 
-					<a href="#"  style="font-family: Arial, sans-serif; color: #204a87; text-decoration: none; font-weight: bold;">Save As PNG</a>
-				</div>
-				<div style="margin: 5px; cursor:pointer;" onclick="var renderer = new Renderer(); renderer.setDriver( new SvgDriver() ); renderer.render(); return false;"> 
-					<a href="#"  style="font-family: Arial, sans-serif; color: #204a87; text-decoration: none; font-weight: bold;">Save As SVG</a>
-				</div>
-			</div>
-		</div>
-    </body>
-</html>
-EOF;
-        file_put_contents( $file, $this->_image );
+        file_put_contents( $file, $this->_getJs() );
     }
 
     /**
