@@ -293,6 +293,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             }
             // scriptTag is now the last added script, so it should be ours.
 
+//            document.documentElement.addEventListener( 'load', init, true );
 
             // Data section *start*
             var polygones = {$polygoneArray}
@@ -974,17 +975,17 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                 this.container = document.createElement( 'div' );
                 this.canvas = document.createElement( 'canvas' );
                 this.controlOverlay = document.createElement( 'div' );
-                this.container.style.display = "absolute";
+                this.container.style.position = "relative";
                 this.container.style.width = {$this->_x} + "px";
                 this.container.style.height = {$this->_y} + "px";
-                this.canvas.style.position = "relative";
+                this.canvas.style.position = "absolute";
                 this.canvas.style.top = "0px";
                 this.canvas.style.left = "0px";
                 this.canvas.style.width = {$this->_x} + "px";
                 this.canvas.style.height = {$this->_y} + "px";
                 this.canvas.width = {$this->_x};
                 this.canvas.height = {$this->_y};
-                this.controlOverlay.style.position = "relative";
+                this.controlOverlay.style.position = "absolute";
                 this.controlOverlay.style.top = "0px";
                 this.controlOverlay.style.left = "0px";
                 this.controlOverlay.style.width = {$this->_x} + "px";
@@ -1111,6 +1112,9 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                     return encoded.join( "" );
                 }
             }
+
+            // Register our new onload function
+            document.addEventListener(  "DOMContentLoaded", init, false );
 EOF;
     }
 
