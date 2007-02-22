@@ -377,6 +377,13 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                 },
 
                 /**
+                 * Return the current used driver 
+                 */
+                getDriver: function() {
+                    return this._driver;
+                },
+
+                /**
                  * Set an event generator to listen to 
                  */
                 setEventGenerator: function( eventGenerator ) {
@@ -693,7 +700,11 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                  *  Finish the output process
                  */
                 finish: function() {
-                    window.location = this._canvasElement.toDataURL();
+                    var popupWindow = window.open(
+                        this._canvasElement.toDataURL(), 
+                        'popup', 
+                        'width=' + ({$this->_x}+20) + ', height=' + ({$this->_y}+20)
+                    );
                 }
             }
 
@@ -1043,8 +1054,10 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                     image = document.createTextNode( 'PNG' );
                     Image3D.buttons[4].addEventListener( 'click', function( event ) 
                     {
+                        var oldDriver = Image3D.renderer.getDriver();
                         Image3D.renderer.setDriver( new PngDriver() );
                         Image3D.renderer.render();
+                        Image3D.renderer.setDriver( oldDriver );
                         return false;
                     }, false);
                     Image3D.buttons[4].appendChild( image );
@@ -1053,8 +1066,10 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                     image = document.createTextNode( 'SVG' );
                     Image3D.buttons[5].addEventListener( 'click', function( event ) 
                     {
+                        var oldDriver = Image3D.renderer.getDriver();
                         Image3D.renderer.setDriver( new SvgDriver() );
                         Image3D.renderer.render();
+                        Image3D.renderer.setDriver( oldDriver );
                         return false;
                     }, false);
                     Image3D.buttons[5].appendChild( image );
@@ -1138,7 +1153,11 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
                     this._svg += "<defs></defs>\\n";
                     this._svg += this._polygones.join( "" );
                     this._svg += "</svg>";
-                    window.location = "data:image/svg+xml;base64," + Base64.encode( this._svg );
+                    var popupWindow = window.open(
+                        "data:image/svg+xml;base64," + Base64.encode( this._svg ), 
+                        'popup', 
+                        'width=' + {$this->_x}  + ', height=' + {$this->_y} 
+                    );
                 }
             }
 
