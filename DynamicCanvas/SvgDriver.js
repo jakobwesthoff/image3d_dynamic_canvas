@@ -1,11 +1,13 @@
 function SvgDriver_%uid%() {
+    this._polygones = new Array();
+    this._gradients = new Array();
 }
 
 SvgDriver_%uid%.prototype = {
     _svg: "",
     _index: 0,
-    _polygones: Array(),
-    _gradients: Array(),
+    _polygones: new Array(),
+    _gradients: new Array(),
 
     _decimal2hex: function( decimal ) {
         var charset = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
