@@ -36,10 +36,10 @@ SvgDriver.prototype = {
     },
 
     begin: function( x, y ) {
-        this._svg += '<?xml version="1.0" ?>\\n';
-        this._svg += '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\\n';             
-        this._svg += '"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\\n\\n';
-        this._svg += '<svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="' + x + '" height="' + y + '">\\n';
+        this._svg += '<?xml version="1.0" ?>\n';
+        this._svg += '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\n';             
+        this._svg += '"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n\n';
+        this._svg += '<svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="' + x + '" height="' + y + '">\n';
     },
 
     drawPolygon: function( polygon ) {
@@ -48,11 +48,11 @@ SvgDriver.prototype = {
         {
             pointlist += ( Math.round( polygon["points"][i][0] * 100 ) / 100 ) + "," + ( Math.round( polygon["points"][i][1] * 100 ) / 100 ) + " "; 
         }
-        this._polygones.push( "<polygon points=\"" + pointlist.substr( 0, pointlist.length -1 ) + "\" style=\"" + this._getStyle( polygon["colors"][0] )  +"\" />\\n" );
+        this._polygones.push( "<polygon points=\"" + pointlist.substr( 0, pointlist.length -1 ) + "\" style=\"" + this._getStyle( polygon["colors"][0] )  +"\" />\n" );
     },
 
     finish: function() {
-        this._svg += "<defs></defs>\\n";
+        this._svg += "<defs></defs>\n";
         this._svg += this._polygones.join( "" );
         this._svg += "</svg>";
         var popupWindow = window.open(
