@@ -1,7 +1,7 @@
 /**
  * Output Driver to render into a canvas object
  */
-function CanvasDriver( canvasElement ) {
+function CanvasDriver_%uid%( canvasElement ) {
     if ( !canvasElement.getContext ) 
     {            
         window.alert( 'Unfortunatly your browser does not support the "Canvas" control.\\nDownload Firefox <http://mozilla.org/firefox> to make the 3D control display in your browser.' );
@@ -11,7 +11,7 @@ function CanvasDriver( canvasElement ) {
     this._canvas = canvasElement.getContext( '2d' );
 }
 
-CanvasDriver.prototype = {
+CanvasDriver_%uid%.prototype = {
     /**
      * Canvas rendering context 
      */

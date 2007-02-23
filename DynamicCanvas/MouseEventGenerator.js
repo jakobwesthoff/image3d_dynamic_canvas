@@ -1,20 +1,20 @@
 /**
  * EventGenerator which enables controlling the render by mouse movements
  */
-function MouseEventGenerator( activateObject, deactivateObject, movementObject ) {
+function MouseEventGenerator_%uid%( activateObject, deactivateObject, movementObject ) {
     this._activateObject = activateObject;
     this._deactivateObject = deactivateObject;
     this._movementObject = movementObject;
-    this.setControlState( null, MouseEventGenerator.CONTROL_TRANSLATE_XY );
+    this.setControlState( null, MouseEventGenerator_%uid%.CONTROL_TRANSLATE_XY );
 }           
 
 // Class constants
-MouseEventGenerator.CONTROL_TRANSLATE_XY = 1;
-MouseEventGenerator.CONTROL_TRANSLATE_Z = 2;
-MouseEventGenerator.CONTROL_ROTATE_XY = 3;
-MouseEventGenerator.CONTROL_ROTATE_Z = 4;
+MouseEventGenerator_%uid%.CONTROL_TRANSLATE_XY = 1;
+MouseEventGenerator_%uid%.CONTROL_TRANSLATE_Z = 2;
+MouseEventGenerator_%uid%.CONTROL_ROTATE_XY = 3;
+MouseEventGenerator_%uid%.CONTROL_ROTATE_Z = 4;
 
-MouseEventGenerator.prototype =  {
+MouseEventGenerator_%uid%.prototype =  {
     /**
      * The renderer which should be notified 
      */
@@ -158,17 +158,17 @@ MouseEventGenerator.prototype =  {
         {
             switch ( this._currentControlState ) 
             {
-                case MouseEventGenerator.CONTROL_TRANSLATE_XY:
-                    this._notifyRenderer( Renderer.EVENT_TRANSLATE, [ -calcOffsetX * 2, -calcOffsetY * 2, 0 ] );
+                case MouseEventGenerator_%uid%.CONTROL_TRANSLATE_XY:
+                    this._notifyRenderer( Renderer_%uid%.EVENT_TRANSLATE, [ -calcOffsetX * 2, -calcOffsetY * 2, 0 ] );
                 break
-                case MouseEventGenerator.CONTROL_TRANSLATE_Z:
-                    this._notifyRenderer( Renderer.EVENT_TRANSLATE, [ 0, 0, -calcOffsetY * 2 ] );
+                case MouseEventGenerator_%uid%.CONTROL_TRANSLATE_Z:
+                    this._notifyRenderer( Renderer_%uid%.EVENT_TRANSLATE, [ 0, 0, -calcOffsetY * 2 ] );
                 break;
-                case MouseEventGenerator.CONTROL_ROTATE_XY:
-                    this._notifyRenderer( Renderer.EVENT_ROTATE, [ calcOffsetY < 0 ? -calcOffsetY * 2 : 360 - calcOffsetY * 2, calcOffsetX < 0 ? 360 - -calcOffsetX * 2 : calcOffsetX * 2, 0 ] );
+                case MouseEventGenerator_%uid%.CONTROL_ROTATE_XY:
+                    this._notifyRenderer( Renderer_%uid%.EVENT_ROTATE, [ calcOffsetY < 0 ? -calcOffsetY * 2 : 360 - calcOffsetY * 2, calcOffsetX < 0 ? 360 - -calcOffsetX * 2 : calcOffsetX * 2, 0 ] );
                 break;
-                case MouseEventGenerator.CONTROL_ROTATE_Z:
-                    this._notifyRenderer( Renderer.EVENT_ROTATE, [ 0, 0, calcOffsetX < 0 ? 360 - -calcOffsetX * 2 : calcOffsetX * 2 ] );
+                case MouseEventGenerator_%uid%.CONTROL_ROTATE_Z:
+                    this._notifyRenderer( Renderer_%uid%.EVENT_ROTATE, [ 0, 0, calcOffsetX < 0 ? 360 - -calcOffsetX * 2 : calcOffsetX * 2 ] );
                 break;
             }
         }
@@ -198,9 +198,6 @@ MouseEventGenerator.prototype =  {
      */ 
     setControlState: function( event, state ) 
     {
-        var buttons = new Array();
-        console.log( state );
-
         this._currentControlState = state;
     }
 

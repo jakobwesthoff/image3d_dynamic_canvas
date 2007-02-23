@@ -1,7 +1,7 @@
 /**
  * Class managing the toolbar with all of the control buttons
  */
-function Toolbar( container )
+function Toolbar_%uid%( container )
 {
     // Create the needed ul to hold the toolbar buttons
     this.container = document.createElement( 'ul' );
@@ -16,7 +16,7 @@ function Toolbar( container )
     container.appendChild( this.container );
 }
 
-Toolbar.prototype = {
+Toolbar_%uid%.prototype = {
     container: false,
     buttons: new Array(),
     activeButton: false,

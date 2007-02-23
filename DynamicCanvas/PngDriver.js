@@ -1,11 +1,11 @@
 /**
  * Driver which outputs a png image of the rendering context
  */
-function PngDriver() {
+function PngDriver_%uid%() {
     // Nothing to do here
 }
 
-PngDriver.prototype = {
+PngDriver_%uid%.prototype = {
     /**
      * The in-memory canvas element, where the image will be
      * rendered to before it is saved to a png
@@ -25,7 +25,7 @@ PngDriver.prototype = {
             window.alert('Sorry your browser does not support export to an image file.');
             throw "Canvas does not support toDataURL";
         }
-        this._canvasDriver = new CanvasDriver( this._canvasElement );                
+        this._canvasDriver = new CanvasDriver_%uid%( this._canvasElement );                
     },
 
     /**

@@ -279,12 +279,14 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             "%background%",
             "%width%",
             "%height%",
+            "%uid%",
         );
         $replacements = array( 
             $this->_arrayToJs( $this->_polygones ) . ";\n",
             $this->_background,
             $this->_x,
             $this->_y,
+            sha1( mt_rand() . mt_rand() . mt_rand() . mt_rand() . mt_rand() . mt_rand() . mt_rand() ),
         );
 
         $jsfiles = array( 

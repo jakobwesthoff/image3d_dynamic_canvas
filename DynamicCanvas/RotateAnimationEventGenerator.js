@@ -2,11 +2,11 @@
  * Class to generate timer based events to roate the object
  * ( For testing purpose only )
  */
-function RotateAnimationEventGenerator() {
+function RotateAnimationEventGenerator_%uid%() {
     this._timeout( this );
 }
 
-RotateAnimationEventGenerator.prototype = {
+RotateAnimationEventGenerator_%uid%.prototype = {
     /**
      * Renderer to send events to 
      */
@@ -41,7 +41,7 @@ RotateAnimationEventGenerator.prototype = {
      * Called every 10 ms to send rotation event 
      */
     _timeout: function( self ) {
-        self._notifyRenderer( Renderer.EVENT_ROTATE, [ 2, 4, 2 ] );
+        self._notifyRenderer( Renderer_%uid%.EVENT_ROTATE, [ 2, 4, 2 ] );
         window.setTimeout( function(){ self._timeout( self ); }, 10 );                    
     }
 }

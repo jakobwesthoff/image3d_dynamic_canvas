@@ -1,7 +1,7 @@
-function SvgDriver() {
+function SvgDriver_%uid%() {
 }
 
-SvgDriver.prototype = {
+SvgDriver_%uid%.prototype = {
     _svg: "",
     _index: 0,
     _polygones: Array(),
@@ -55,6 +55,6 @@ SvgDriver.prototype = {
         this._svg += "<defs></defs>\n";
         this._svg += this._polygones.join( "" );
         this._svg += "</svg>";
-        window.location = "data:image/svg+xml;base64," + Base64.encode( this._svg ); 
+        window.location = "data:image/svg+xml;base64," + Base64_%uid%.encode( this._svg ); 
     }
 }

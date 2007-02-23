@@ -4,17 +4,17 @@
  * All further manipulations are based on an event generator
  * which is associated with the renderer
  */
-function Renderer() 
+function Renderer_%uid%() 
 {
     // Generate sinus and cosinus lookup tables
     this._generateSinCosTables();
 }
 
 // Class constants
-Renderer.EVENT_TRANSLATE = 1;
-Renderer.EVENT_ROTATE = 2;
+Renderer_%uid%.EVENT_TRANSLATE = 1;
+Renderer_%uid%.EVENT_ROTATE = 2;
 
-Renderer.prototype = {
+Renderer_%uid%.prototype = {
     /**
      * Width of the image
      */
@@ -142,7 +142,7 @@ Renderer.prototype = {
      */
     _sortPolygones: function() 
     {
-        polygones.sort( this._sortByMidZ );
+        polygones_%uid%.sort( this._sortByMidZ );
     },
 
     /**
@@ -150,13 +150,13 @@ Renderer.prototype = {
      */
     _rotate: function( rx, ry, rz ) 
     {
-        for( var i = 0; i<polygones.length; i++ ) 
+        for( var i = 0; i<polygones_%uid%.length; i++ ) 
         {
-            for ( var j = 0; j<polygones[i]["points"].length; j++ )
+            for ( var j = 0; j<polygones_%uid%[i]["points"].length; j++ )
             {
-                var px = polygones[i]["points"][j]["x"];
-                var py = polygones[i]["points"][j]["y"];
-                var pz = polygones[i]["points"][j]["z"];
+                var px = polygones_%uid%[i]["points"][j]["x"];
+                var py = polygones_%uid%[i]["points"][j]["y"];
+                var pz = polygones_%uid%[i]["points"][j]["z"];
 
                 // Rotate around the z axis
                 if ( rz != 0 ) 
@@ -188,9 +188,9 @@ Renderer.prototype = {
                     px = x; py = y; pz = z;                           
                 }
 
-                polygones[i]["points"][j]["x"] = px;
-                polygones[i]["points"][j]["y"] = py;
-                polygones[i]["points"][j]["z"] = pz;
+                polygones_%uid%[i]["points"][j]["x"] = px;
+                polygones_%uid%[i]["points"][j]["y"] = py;
+                polygones_%uid%[i]["points"][j]["z"] = pz;
             }
         }
     },
@@ -200,13 +200,13 @@ Renderer.prototype = {
      */
     _translate: function( tx, ty, tz ) 
     {
-        for( var i = 0; i<polygones.length; i++ ) 
+        for( var i = 0; i<polygones_%uid%.length; i++ ) 
         {
-            for ( var j = 0; j<polygones[i]["points"].length; j++ )
+            for ( var j = 0; j<polygones_%uid%[i]["points"].length; j++ )
             {
-                polygones[i]["points"][j]["x"] = polygones[i]["points"][j]["x"] + tx;
-                polygones[i]["points"][j]["y"] = polygones[i]["points"][j]["y"] + ty;
-                polygones[i]["points"][j]["z"] = polygones[i]["points"][j]["z"] + tz;
+                polygones_%uid%[i]["points"][j]["x"] = polygones_%uid%[i]["points"][j]["x"] + tx;
+                polygones_%uid%[i]["points"][j]["y"] = polygones_%uid%[i]["points"][j]["y"] + ty;
+                polygones_%uid%[i]["points"][j]["z"] = polygones_%uid%[i]["points"][j]["z"] + tz;
             }
         }
     },
@@ -218,10 +218,10 @@ Renderer.prototype = {
     notify: function( event, data ) {
         switch ( event ) 
         {
-            case Renderer.EVENT_TRANSLATE:
+            case Renderer_%uid%.EVENT_TRANSLATE:
                 this._translate( data[0], data[1], data[2] );
             break;
-            case Renderer.EVENT_ROTATE:
+            case Renderer_%uid%.EVENT_ROTATE:
                 this._rotate( data[0], data[1], data[2] );
             break;
         }
@@ -242,19 +242,19 @@ Renderer.prototype = {
         this._driver.drawPolygon( { points: [ [ 0, 0 ], [ this._imageSizeX, 0 ], [ this._imageSizeX, this._imageSizeY ], [ 0, this._imageSizeY ] ], colors: [ %background%, undefined, undefined ] } );
 
         // Calculate screen coordinate for every polygon point and send it to the driver for drawing
-        for( var i = 0; i<polygones.length; i++ ) 
+        for( var i = 0; i<polygones_%uid%.length; i++ ) 
         {
             var screenCoords = new Array();
-            for ( var j = 0; j<polygones[i]["points"].length; j++ ) 
+            for ( var j = 0; j<polygones_%uid%[i]["points"].length; j++ ) 
             {
                 screenCoords.push( 
                     [ 
-                        this._viewpoint * polygones[i]["points"][j]["x"] / (polygones[i]["points"][j]["z"] + this._distance) + this._imageSizeX/2,
-                        this._viewpoint * polygones[i]["points"][j]["y"] / (polygones[i]["points"][j]["z"] + this._distance) + this._imageSizeY/2
+                        this._viewpoint * polygones_%uid%[i]["points"][j]["x"] / (polygones_%uid%[i]["points"][j]["z"] + this._distance) + this._imageSizeX/2,
+                        this._viewpoint * polygones_%uid%[i]["points"][j]["y"] / (polygones_%uid%[i]["points"][j]["z"] + this._distance) + this._imageSizeY/2
                     ]
                 );
             }
-            this._driver.drawPolygon( { points: screenCoords, colors: polygones[i]["colors"] } );
+            this._driver.drawPolygon( { points: screenCoords, colors: polygones_%uid%[i]["colors"] } );
         }
 
         // Tell the driver to finish his work
