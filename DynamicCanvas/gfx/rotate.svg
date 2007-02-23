@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45"
+   version="1.0"
+   sodipodi:docbase="/home/jakob/dev/php/Image_3D/Image/3D/Driver/DynamicCanvas/gfx"
+   sodipodi:docname="move.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/jakob/dev/php/Image_3D/Image/3D/Driver/DynamicCanvas/gfx/move_z.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180"
+   sodipodi:modified="true">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="22.627417"
+     inkscape:cx="7.9309354"
+     inkscape:cy="7.6015415"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="16px"
+     height="16px"
+     inkscape:showpageshadow="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1113"
+     inkscape:window-x="1920"
+     inkscape:window-y="51" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-size:5.19408846px;font-style:normal;font-weight:normal;fill:#fcaf3e;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="6.8094282"
+       y="9.2785835"
+       id="text2200"
+       transform="scale(0.9256379,1.080336)"><tspan
+         sodipodi:role="line"
+         id="tspan2202"
+         x="6.8094282"
+         y="9.2785835"
+         style="fill:#fcaf3e;font-family:Arial Black">Z</tspan></text>
+    <path
+       style="opacity:1;fill:#2e3436;fill-opacity:1;stroke:none;stroke-width:0.60000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 7.1691946,0.078584973 C 3.4081516,0.46252497 0.45895461,3.4623314 0.10669461,7.234835 L 1.5129446,7.234835 C 1.8643126,4.2143075 4.2645176,1.8061495 7.2941946,1.484835 L 7.2941946,0.078584973 C 7.2531476,0.082131873 7.2100576,0.074413473 7.1691946,0.078584973 z M 8.7316946,0.078584973 L 8.7316946,1.484835 C 11.752011,1.8189339 14.160981,4.2223106 14.512944,7.234835 L 15.919194,7.234835 C 15.562133,3.4417102 12.524782,0.43577427 8.7316946,0.078584973 z M 0.10669461,8.703585 C 0.44929161,12.528725 3.4647556,15.563238 7.2941946,15.891085 L 7.2941946,14.484835 C 4.2431196,14.161028 1.8059256,11.754531 1.4816946,8.703585 L 0.10669461,8.703585 z M 14.512944,8.703585 C 14.186256,11.744037 11.771556,14.148132 8.7316946,14.484835 L 8.7316946,15.891085 C 12.535202,15.536061 15.575724,12.508326 15.919194,8.703585 L 14.512944,8.703585 z "
+       id="path2222" />
+  </g>
+</svg>

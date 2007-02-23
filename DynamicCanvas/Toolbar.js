@@ -25,18 +25,17 @@ Toolbar_%uid%.prototype = {
         var button = document.createElement( 'li' );
         var img = document.createElement( 'img' );
         img.src = image;
-        img.style.margin = '1px';
         button.innerHtml = image;
         button.appendChild( img );
-        button.style.backgroundColor = '#bbbbbb';
-        button.style.borderBottom = '1px solid #444444';
-        button.style.borderRight = '1px solid #444444';
-        button.style.borderTop = '1px solid #dddddd';
-        button.style.borderLeft = '1px solid #dddddd';
+        button.style.backgroundColor = '#d3d7cf';
+        button.style.borderBottom = '1px solid #555753';
+        button.style.borderRight = '1px solid #555753';
+        button.style.borderTop = '1px solid #eeeeec';
+        button.style.borderLeft = '1px solid #eeeec';
         button.style.display = 'block';
         button.style.cssFloat = 'left';
-        button.style.height = "18px";
-        button.style.width = "18px";
+        button.style.height = "24px";
+        button.style.width = "24px";
         button.style.padding = "0px";
         button.style.margin = "0px";
         button.style.marginRight = "6px";
@@ -51,15 +50,15 @@ Toolbar_%uid%.prototype = {
     activate: function( o ) {
         for( var key in this.buttons ) 
         {
-            this.buttons[key].style.borderBottom = '1px solid #444444';
-            this.buttons[key].style.borderRight = '1px solid #444444';
-            this.buttons[key].style.borderTop = '1px solid #dddddd';
-            this.buttons[key].style.borderLeft = '1px solid #dddddd';
+            this.buttons[key].style.borderBottom = '1px solid #555753';
+            this.buttons[key].style.borderRight = '1px solid #555753';
+            this.buttons[key].style.borderTop = '1px solid #eeeeec';
+            this.buttons[key].style.borderLeft = '1px solid #eeeeec';
         }
-        o.style.borderBottom = '1px solid #dddddd';
-        o.style.borderRight = '1px solid #dddddd';
-        o.style.borderTop = '1px solid #444444';
-        o.style.borderLeft = '1px solid #444444';
+        o.style.borderBottom = '1px solid #eeeeec';
+        o.style.borderRight = '1px solid #eeeeec';
+        o.style.borderTop = '1px solid #555753';
+        o.style.borderLeft = '1px solid #555753';
         this.activeButton = o;
     }
 }
