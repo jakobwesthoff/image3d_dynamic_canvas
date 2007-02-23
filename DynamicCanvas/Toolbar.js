@@ -61,5 +61,5 @@ Toolbar_%uid%.prototype = {
         o.style.borderTop = '1px solid #444444';
         o.style.borderLeft = '1px solid #444444';
         this.activeButton = o;
-    },
+    }
 }
