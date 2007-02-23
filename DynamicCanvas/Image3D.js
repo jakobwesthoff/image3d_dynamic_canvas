@@ -40,6 +40,7 @@ Image3D = {
                 function( event ) 
                 {
                     Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_TRANSLATE_XY );
+                    Image3D.toolbar.activate( this );
                 }
             )
         );
@@ -48,6 +49,7 @@ Image3D = {
             function( event ) 
             {
                 Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_TRANSLATE_Z );
+                Image3D.toolbar.activate( this );
             }
         );
         Image3D.toolbar.addButton( 
@@ -55,6 +57,7 @@ Image3D = {
             function( event ) 
             {
                 Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_ROTATE_XY );
+                Image3D.toolbar.activate( this );
             }
         );
         Image3D.toolbar.addButton( 
@@ -62,6 +65,7 @@ Image3D = {
             function( event ) 
             {
                 Image3D.mouseEventGenerator.setControlState( event, MouseEventGenerator.CONTROL_ROTATE_Z );
+                Image3D.toolbar.activate( this );
             }
         );
         Image3D.toolbar.addButton( 

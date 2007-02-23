@@ -41,12 +41,7 @@ Toolbar.prototype = {
         button.style.margin = "0px";
         button.style.marginRight = "6px";
 
-        var self = this;
-        button.addEventListener( 'click', function( event ) 
-        {
-            self.activate( this );
-            onClick( event );
-        }, false );
+        button.addEventListener( 'click', onClick, false );
 
         this.container.appendChild( button );
         this.buttons.push( button );

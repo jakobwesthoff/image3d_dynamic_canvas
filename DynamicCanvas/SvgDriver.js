@@ -55,10 +55,6 @@ SvgDriver.prototype = {
         this._svg += "<defs></defs>\n";
         this._svg += this._polygones.join( "" );
         this._svg += "</svg>";
-        var popupWindow = window.open(
-            "data:image/svg+xml;base64," + Base64.encode( this._svg ), 
-            'popup', 
-            'width=' + %width%  + ', height=' + %height% 
-        );
+        window.location = "data:image/svg+xml;base64," + Base64.encode( this._svg ); 
     }
 }

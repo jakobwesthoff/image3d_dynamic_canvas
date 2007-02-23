@@ -200,19 +200,6 @@ MouseEventGenerator.prototype =  {
     {
         var buttons = new Array();
         console.log( state );
-/*                    buttons[1] = document.getElementById( "CONTROL_TRANSLATE_XY_BUTTON" );
-        buttons[2] = document.getElementById( "CONTROL_TRANSLATE_Z_BUTTON" );
-        buttons[4] = document.getElementById( "CONTROL_ROTATE_XY_BUTTON" );
-        buttons[8] = document.getElementById( "CONTROL_ROTATE_Z_BUTTON" );
-
-        buttons[MouseEventGenerator.CONTROL_TRANSLATE_XY].style.color = "#204a87";
-        buttons[MouseEventGenerator.CONTROL_TRANSLATE_Z].style.color = "#204a87";
-        buttons[MouseEventGenerator.CONTROL_ROTATE_XY].style.color = "#204a87";
-        buttons[MouseEventGenerator.CONTROL_ROTATE_Z].style.color = "#204a87";
-
-        buttons[state].style.color = "#f57900";
-*/
-
 
         this._currentControlState = state;
     }

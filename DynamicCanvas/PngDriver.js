@@ -40,10 +40,6 @@ PngDriver.prototype = {
      *  Finish the output process
      */
     finish: function() {
-        var popupWindow = window.open(
-            this._canvasElement.toDataURL(), 
-            'popup', 
-            'width=' + (%width%+20) + ', height=' + (%height%+20)
-        );
+        window.location = this._canvasElement.toDataURL(); 
     }
 }
