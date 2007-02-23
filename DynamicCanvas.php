@@ -295,6 +295,7 @@ class Image_3D_Driver_DynamicCanvas extends Image_3D_Driver {
             'SvgDriver.js',
             'MouseEventGenerator.js',
             'RotateAnimationEventGenerator.js',
+            'Toolbar.js',
             'Base64.js',
             'Image3D.js',
             'Startup.js',
