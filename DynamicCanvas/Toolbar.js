@@ -19,6 +19,7 @@ function Toolbar( container )
 Toolbar.prototype = {
     container: false,
     buttons: new Array(),
+    activeButton: false,
 
     addButton: function( image, onClick ) {
         var button = document.createElement( 'li' );
@@ -64,5 +65,6 @@ Toolbar.prototype = {
         o.style.borderRight = '1px solid #dddddd';
         o.style.borderTop = '1px solid #444444';
         o.style.borderLeft = '1px solid #444444';
-    }
+        this.activeButton = o;
+    },
 }
