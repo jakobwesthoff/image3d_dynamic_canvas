@@ -3,6 +3,8 @@ image3d_dynamic_canvas
 
 DynamicCanvas renderer experiment for Image3D__
 
+__ http://pear.php.net/package/Image_3D/
+
 Further reading
 ===============
 
